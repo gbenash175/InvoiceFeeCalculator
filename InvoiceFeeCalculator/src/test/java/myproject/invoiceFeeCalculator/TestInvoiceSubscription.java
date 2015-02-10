@@ -50,14 +50,22 @@ public class TestInvoiceSubscription extends TestCase {
 	}
 	
 	@Test
-	public void testInvoiceAboveHundred(){
+	public void testInvoiceBetweenHundredAndFiveHundred(){
 		setup();
 		double invoiceMoney1 = 200000.00;
-		double invoiceMoney2 = 990000.00;		
+		double invoiceMoney2 = 400000.00;
 		double invoiceFee = calc.invoiceFeeCalculator(invoiceMoney1);
-		double invoiceFee2 = calc.invoiceFeeCalculator(invoiceMoney2);
-		
-		assertEquals(20000.0, invoiceFee);
-		assertEquals(99000.0, invoiceFee2);		
+		double invoiceFee1 = calc.invoiceFeeCalculator(invoiceMoney2);
+		assertEquals(30000.0, invoiceFee);
+		assertEquals(50000.0, invoiceFee1);
+	}
+	
+	// USER CASE TWO 
+	@Test
+	public void testForInvoiceAboveFiveHundred(){
+		setup();
+		double invoiceMoney = 600000.00;
+		double invoiceFee = calc.invoiceFeeCalculator(invoiceMoney);
+		assertEquals(65000.0, invoiceFee);
 	}
 }
