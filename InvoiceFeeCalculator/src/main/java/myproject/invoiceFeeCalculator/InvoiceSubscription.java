@@ -2,56 +2,49 @@ package myproject.invoiceFeeCalculator;
 
 
 public class InvoiceSubscription {
+	private static int INTERVAL = 100000;
+	private int invoicePercentage = 20;
+	private double invoiceBracket = 100000;
+	
+	
 	
 	public double invoiceFeeCalculator(double invoiceMoney){
 		if(isPositive(invoiceMoney)){
 			return calcInvoiceFee(invoiceMoney);
 		}else {
 			return invoiceMoney;
-		}
-	   	
+		}   	
 	}
 		
 	private double calcInvoiceFee(double invoiceMoney){
-		if(invoiceMoney<=100000){
-	   		return calc20PercentFee(invoiceMoney);
-	   	}else if (invoiceMoney >100000 && invoiceMoney <=500000){
-	   		return calc10PercentFee(invoiceMoney);
-	   	}else {
-	   		return calcFivePercentFee(invoiceMoney);
-	   	}
+	 double partialInvoice = invoiceMoney;
+	 double invoiceFee = 0;
+	 double previousInvoiceBracket =0;
+	  while (invoiceMoney > invoiceBracket){
+		  invoiceFee += calcPercentageFee(invoiceBracket - previousInvoiceBracket);
+		  previousInvoiceBracket = invoiceBracket;
+		  invoiceBracketAlgorithm();
+		  partialInvoice = invoiceMoney - previousInvoiceBracket;
+	  }
+	  return invoiceFee += calcPercentageFee(partialInvoice);
 	}
 	
-	private double calc20PercentFee(double invoiceMoney ){
-		return 20 * invoiceMoney / 100;
-	}
 	
-	private double calc10PercentFee(double InitialInvoiceMoney){
-		double totalChargedFee = 20000.0;
-		double calcInvoiceMoney = InitialInvoiceMoney - 100000.0;
-		while(calcInvoiceMoney >= 100000.0){
-			calcInvoiceMoney = calcInvoiceMoney - 100000.0;
-			totalChargedFee = totalChargedFee + 10000;
+	protected double calcPercentageFee(double value ){
+		double fee =0;
+		while(value > INTERVAL){
+			value -= INTERVAL;
+			fee += invoicePercentage * 1000;
 		}
-		if(calcInvoiceMoney < 100000){
-			totalChargedFee += 10 * calcInvoiceMoney / 100;
-		}
-		return totalChargedFee;
-	}
-	
-	private double calcFivePercentFee(double InitialInvoiceMoney ){
-		double totalChargedFee = 60000.0;
-		double calcInvoiceMoney = InitialInvoiceMoney - 500000.0;
-		while(calcInvoiceMoney >= 100000.0){
-			calcInvoiceMoney = calcInvoiceMoney - 100000.0;
-			totalChargedFee = totalChargedFee + 5000;
-		}
-		if(calcInvoiceMoney < 100000){
-			totalChargedFee += 5 * calcInvoiceMoney / 100;
-		}
-		return totalChargedFee;
+		return fee += invoicePercentage * value /100;
 	}
 
+	
+	private void invoiceBracketAlgorithm(){
+		  invoicePercentage= invoicePercentage/2;
+		  invoiceBracket +=400000.0;
+}
+	
 	protected  boolean isPositive(double d) {
 	     return Double.doubleToRawLongBits(d) > 0;
 	}

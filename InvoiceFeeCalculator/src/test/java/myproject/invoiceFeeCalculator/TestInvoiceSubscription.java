@@ -53,11 +53,13 @@ public class TestInvoiceSubscription extends TestCase {
 	public void testInvoiceBetweenHundredAndFiveHundred(){
 		setup();
 		double invoiceMoney1 = 200000.00;
-		double invoiceMoney2 = 400000.00;
 		double invoiceFee = calc.invoiceFeeCalculator(invoiceMoney1);
-		double invoiceFee1 = calc.invoiceFeeCalculator(invoiceMoney2);
 		assertEquals(30000.0, invoiceFee);
-		assertEquals(50000.0, invoiceFee1);
+		
+		setup();
+		double invoiceMoney2 = 300000.00;
+		double invoiceFee1 = calc.invoiceFeeCalculator(invoiceMoney2);
+		assertEquals(40000.0, invoiceFee1);
 	}
 	
 	// USER CASE TWO 
@@ -68,4 +70,8 @@ public class TestInvoiceSubscription extends TestCase {
 		double invoiceFee = calc.invoiceFeeCalculator(invoiceMoney);
 		assertEquals(65000.0, invoiceFee);
 	}
+	
+	// USER CASE THREE
+	
+	
 }
