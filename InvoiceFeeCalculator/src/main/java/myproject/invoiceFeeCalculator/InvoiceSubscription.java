@@ -15,6 +15,24 @@ public class InvoiceSubscription {
 			return invoiceMoney;
 		}   	
 	}
+	
+	public double invoiceFeeWithCostBasis(double costBasis, double newInvoice){
+		 double invoiceFee =0;
+		 double partialInterval;
+		   while(costBasis > invoiceBracket ){
+			   invoiceBracketAlgorithm();
+		   }
+		   partialInterval = invoiceBracket - costBasis;
+		   if(partialInterval >= newInvoice){
+			    invoiceFee = calcPercentageFee(newInvoice);
+		   }else {
+			   invoiceFee += calcPercentageFee(partialInterval);  
+			   invoiceBracketAlgorithm();
+			   invoiceFee += calcPercentageFee(newInvoice - partialInterval);   
+		   }
+		   return invoiceFee;  
+	}
+		  
 		
 	private double calcInvoiceFee(double invoiceMoney){
 	 double partialInvoice = invoiceMoney;

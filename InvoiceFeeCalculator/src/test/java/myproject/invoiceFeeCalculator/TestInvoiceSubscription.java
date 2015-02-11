@@ -62,7 +62,7 @@ public class TestInvoiceSubscription extends TestCase {
 		assertEquals(40000.0, invoiceFee1);
 	}
 	
-	// USER CASE TWO 
+	// USE CASE TWO 
 	@Test
 	public void testForInvoiceAboveFiveHundred(){
 		setup();
@@ -71,7 +71,18 @@ public class TestInvoiceSubscription extends TestCase {
 		assertEquals(65000.0, invoiceFee);
 	}
 	
-	// USER CASE THREE
+	// USE CASE THREE
 	
+	//USE CASE FOUR
+	//Given a cost basis of $400,000 and a new invoice for $200,000, the fee for the new invoice 	should be $15,000!
+
+	@Test
+	public void testCostBasis(){
+		setup();
+		double costBasisInvoice = 400000.0;
+		double newInvoice = 200000.00;
+		double invoiceFee = calc.invoiceFeeWithCostBasis(costBasisInvoice,newInvoice );
+		assertEquals(15000.0, invoiceFee);
+	}
 	
 }
